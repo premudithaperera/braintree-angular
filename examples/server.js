@@ -12,14 +12,14 @@ var gateway = braintree.connect({
   privateKey: "YOUR_PRIVATE_KEY"
 });
 
-var angularStr = fs.readFileSync(__dirname+'/../node_modules/angular/angular.js', 'utf8');
-var braintreeAngularStr = fs.readFileSync(__dirname+'/../dist/braintree-angular.js', 'utf8');
+var angularStr = fs.readFileSync(__dirname + '/../node_modules/angular/angular.js', 'utf8');
+var braintreeAngularStr = fs.readFileSync(__dirname + '/../dist/braintree-angular.js', 'utf8');
 
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.get('/client-token', function(req, res) {
+app.get('/client-token', function (req, res) {
   gateway.clientToken.generate({}, function (err, response) {
     if (err || !response || !response.clientToken) {
       if (err.name === 'authenticationError') {
@@ -37,7 +37,7 @@ app.get('/client-token', function(req, res) {
   });
 });
 
-app.post('/buy-something', function(req, res) {
+app.post('/buy-something', function (req, res) {
   var nonce = req.body.payment_method_nonce;
   gateway.transaction.sale({
     amount: "10.00",
@@ -51,26 +51,26 @@ app.post('/buy-something', function(req, res) {
   });
 });
 
-app.get('/angular.js', function(req, res) {
+app.get('/angular.js', function (req, res) {
   res.send(angularStr);
 });
 
-app.get('/braintree-angular.js', function(req, res) {
+app.get('/braintree-angular.js', function (req, res) {
   res.send(braintreeAngularStr);
 });
 
 app.use(express.static(__dirname));
 
 var port = 8000;
-app.listen(port, '0.0.0.0', function() {
-  console.log('Running at 0.0.0.0:'+port);
+app.listen(port, '0.0.0.0', function () {
+  console.log('Running at 0.0.0.0:' + port);
   console.log('Check out these examples:');
   var files = fs.readdirSync(__dirname)
-    .filter(function(fileName) {
+    .filter(function (fileName) {
       return fileName.match(/\.html$/);
     })
-    .map(function(fileName) {
-      console.log('- http://localhost:'+port+'/'+fileName);
+    .map(function (fileName) {
+      console.log('- http://localhost:' + port + '/' + fileName);
     });
 
 });

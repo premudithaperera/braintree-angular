@@ -30,7 +30,7 @@ describe('Drop-in Integration', function() {
         page.evaluate(function() { return document.documentElement.innerHTML; }, function(result) {
 
           assert(result.indexOf('iframe') !== -1, 'adds an iframe to the page');
-          var input = '<input type="hidden" name="payment_method_nonce">';
+          var input = '<input type="hidden" name="payment_method_nonce" value="">';
           assert(result.indexOf(input) !== -1, 'adds nonce input');
 
           done();
