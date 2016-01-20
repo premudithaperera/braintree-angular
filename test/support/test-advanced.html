@@ -16,11 +16,17 @@
         .constant('clientTokenPath', 'http://localhost:3001/client-token')
         .controller('testCtrl', ['$braintree', function($braintree) {
 
+          function parseToken(token) {
+            return typeof token === "object" && token.hasOwnProperty('result')
+              ? token.result
+              : token;
+          }
+
           $braintree.getClientToken()
             .success(function(token) {
 
               var client = new $braintree.api.Client({
-                clientToken: token
+                clientToken: parseToken(token)
               });
 
               if (client.tokenizeCard) {
